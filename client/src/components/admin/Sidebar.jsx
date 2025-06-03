@@ -39,7 +39,7 @@ const Sidebar = () => {
         }
       >
         <img src={assets.list_icon} alt="home icon" className="min-w-4 w-5" />
-        <p className="hidden md:inline-block">List Blog</p>
+        <p className="hidden md:inline-block">Blog List</p>
       </NavLink>
 
       <NavLink

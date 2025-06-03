@@ -27,7 +27,7 @@ const Dashboard = () => {
             <p className="text-xl font-semibold text-gray-600">
               {dashboardData.blogs}
             </p>
-            <p className="text-gray-400 font-light"></p>
+            <p className="text-gray-400 font-light">Blogs</p>
           </div>
         </div>
 
@@ -37,7 +37,7 @@ const Dashboard = () => {
             <p className="text-xl font-semibold text-gray-600">
               {dashboardData.comments}
             </p>
-            <p className="text-gray-400 font-light"></p>
+            <p className="text-gray-400 font-light">Comments</p>
           </div>
         </div>
 
@@ -47,7 +47,7 @@ const Dashboard = () => {
             <p className="text-xl font-semibold text-gray-600">
               {dashboardData.drafts}
             </p>
-            <p className="text-gray-400 font-light"></p>
+            <p className="text-gray-400 font-light"> Drafts</p>
           </div>
         </div>
       </div>
@@ -67,24 +67,19 @@ const Dashboard = () => {
             <thead className="text-xs text-gray-600 text-left uppercase">
               <tr>
                 <th scope="col" className="px-2 py-4 xl:px-6">
-                  {" "}
-                  #{" "}
+                  #
                 </th>
                 <th scope="col" className="px-2 py-4">
-                  {" "}
-                  Blog Title{" "}
+                  Blog Title
                 </th>
                 <th scope="col" className="px-2 py-4 max-sm:hidden">
-                  {" "}
-                  Date{" "}
+                  Date
                 </th>
                 <th scope="col" className="px-2 py-4 max-sm:hidden">
-                  {" "}
-                  Status{" "}
+                  Status
                 </th>
                 <th scope="col" className="px-2 py-4">
-                  {" "}
-                  Actions{" "}
+                  Actions
                 </th>
               </tr>
             </thead>
