@@ -1,10 +1,35 @@
 import express from "express";
-import { addBlog } from "../controllers/blogController.js";
+import {
+  addBlog,
+  addComment,
+  deleteBlogById,
+  getAllBlogs,
+  getBlogById,
+  getBlogComments,
+  togglePublish,
+} from "../controllers/blogController.js";
 import upload from "../middleware/multer.js";
 import authMiddleware from "../middleware/auth.js";
 
 const blogRouter = express.Router();
 
+// Define specific routes FIRST
+blogRouter.get("/all", getAllBlogs);
 blogRouter.post("/add", upload.single("image"), authMiddleware, addBlog);
+blogRouter.post("/delete", authMiddleware, deleteBlogById);
+blogRouter.post("/toggle-publish", authMiddleware, togglePublish);
+blogRouter.post("/add-comment", addComment);
+blogRouter.post("/comments", getBlogComments);
+
+// Add this before your /:blogId route
+blogRouter.get("/comments", (req, res) => {
+  res.status(400).json({
+    success: false,
+    message: "Please use POST method for retrieving comments",
+  });
+});
+
+// Define the parameterized route LAST
+blogRouter.get("/:blogId", getBlogById);
 
 export default blogRouter;
