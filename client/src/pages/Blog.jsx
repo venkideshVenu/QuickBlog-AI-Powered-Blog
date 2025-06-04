@@ -5,8 +5,13 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Moment from "moment";
 import Loader from "../components/Loader";
+import { useAppContext } from "../../context/AppContext";
+import toast from "react-hot-toast";
+
 const Blog = () => {
   const { id } = useParams();
+
+  const { axios } = useAppContext();
 
   const [data, setData] = React.useState(null);
   const [comments, setComments] = React.useState([]);
@@ -14,16 +19,55 @@ const Blog = () => {
   const [content, setContent] = React.useState("");
 
   const fetchBlogData = async () => {
-    const data = blog_data.find((item) => item._id === id);
-    setData(data);
+    try {
+      const { data } = await axios.get(`/api/blog/${id}`);
+      if (data.success) {
+        setData(data.blog);
+      } else {
+        console.error("Failed to fetch blog data:", data.message);
+        toast.error("Failed to fetch blog data");
+      }
+    } catch (error) {
+      console.error("Error fetching blog data:", error);
+      toast.error("An error occurred while fetching the blog data");
+    }
   };
 
   const fetchComments = async () => {
-    setComments(comments_data);
+    try {
+      const { data } = await axios.post("/api/blog/comments", { blogId: id });
+      if (data.success) {
+        setComments(data.comments);
+      } else {
+        console.error("Failed to fetch comments:", data.message);
+        toast.error("Failed to fetch comments");
+      }
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+      toast.error("An error occurred while fetching comments");
+    }
   };
 
   const addComment = async (e) => {
     e.preventDefault();
+    try {
+      const { data } = await axios.post("/api/blog/add-comment", {
+        blog: id,
+        name,
+        content,
+      });
+      if (data.success) {
+        toast.success("Comment added successfully");
+        setName("");
+        setContent("");
+      } else {
+        console.error("Failed to add comment:", data.message);
+        toast.error("Failed to add comment");
+      }
+    } catch (error) {
+      console.error("Error adding comment:", error);
+      toast.error("An error occurred while adding the comment");
+    }
   };
 
   useEffect(() => {
@@ -96,13 +140,15 @@ const Blog = () => {
             <input
               type="text"
               placeholder="Name"
-              onClick={(e) => setName(e.target.value)}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               required
               className="w-full p-2 border border-gray-300 rounded outline-none"
             />
             <textarea
               placeholder="Comment"
-              onClick={(e) => setContent(e.target.value)}
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
               className="w-full p-2 border border-gray-300 rounded outline-none h-48"
               required
             ></textarea>
@@ -134,7 +180,9 @@ const Blog = () => {
       <Footer />
     </div>
   ) : (
-    <div><Loader /></div>
+    <div>
+      <Loader />
+    </div>
   );
 };
 
