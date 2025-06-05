@@ -3,6 +3,7 @@ import {
   addBlog,
   addComment,
   deleteBlogById,
+  generateContent,
   getAllBlogs,
   getBlogById,
   getBlogComments,
@@ -13,7 +14,6 @@ import authMiddleware from "../middleware/auth.js";
 
 const blogRouter = express.Router();
 
-// Define specific routes FIRST
 blogRouter.get("/all", getAllBlogs);
 blogRouter.post("/add", upload.single("image"), authMiddleware, addBlog);
 blogRouter.post("/delete", authMiddleware, deleteBlogById);
@@ -21,7 +21,8 @@ blogRouter.post("/toggle-publish", authMiddleware, togglePublish);
 blogRouter.post("/add-comment", addComment);
 blogRouter.post("/comments", getBlogComments);
 
-// Add this before your /:blogId route
+blogRouter.post("/generate", authMiddleware, generateContent);
+
 blogRouter.get("/comments", (req, res) => {
   res.status(400).json({
     success: false,
@@ -29,7 +30,6 @@ blogRouter.get("/comments", (req, res) => {
   });
 });
 
-// Define the parameterized route LAST
 blogRouter.get("/:blogId", getBlogById);
 
 export default blogRouter;
