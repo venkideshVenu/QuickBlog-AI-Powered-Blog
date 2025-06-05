@@ -57,7 +57,7 @@ const Blog = () => {
         content,
       });
       if (data.success) {
-        toast.success("Comment added successfully");
+        toast.success(data.message);
         setName("");
         setContent("");
       } else {
